@@ -38,6 +38,23 @@ Generates complete Brazilian person profiles including:
 - `idade`: Specific age or 0 for random
 - `cep_estado`: Brazilian state UF code (optional)
 - `cep_cidade`: City code from city loader (optional)
+- `cidade_nome`: City name for automatic resolution (requires cep_estado, mutually exclusive with cep_cidade)
+
+**City Name Resolution:**
+
+The person generator now supports automatic city name resolution. When you provide `cidade_nome`, the system will:
+
+1. Load all cities for the specified state (`cep_estado`)
+2. Search for the city using fuzzy matching (handles accents, case-insensitive)
+3. Automatically resolve the city name to the required city ID
+4. Generate person data specifically for that city
+
+This eliminates the need to manually look up city codes, making the tool much more user-friendly.
+
+**Examples:**
+- `cidade_nome: "Florianópolis"` with `cep_estado: "SC"` → Generates people from Florianópolis
+- `cidade_nome: "São Paulo"` with `cep_estado: "SP"` → Generates people from São Paulo
+- Invalid city names provide helpful error messages with suggestions
 
 ### 2. City Loader (`carregar_cidades`)
 
@@ -196,6 +213,28 @@ npx @modelcontextprotocol/inspector --cli node build/index.js \
   --tool-arg cep_estado=SP
 ```
 
+### Generate People from Specific City (New Feature)
+
+```typescript
+# Generate person from Florianópolis, SC
+npx @modelcontextprotocol/inspector --cli node build/index.js \
+  --method tools/call \
+  --tool-name gerar_pessoa \
+  --tool-arg sexo=M \
+  --tool-arg txt_qtde=1 \
+  --tool-arg cep_estado=SC \
+  --tool-arg cidade_nome=Florianópolis
+
+# Generate people from São Paulo, SP
+npx @modelcontextprotocol/inspector --cli node build/index.js \
+  --method tools/call \
+  --tool-name gerar_pessoa \
+  --tool-arg sexo=I \
+  --tool-arg txt_qtde=3 \
+  --tool-arg cep_estado=SP \
+  --tool-arg cidade_nome="São Paulo"
+```
+
 ### Load Cities for a State
 
 ```typescript
@@ -266,7 +305,8 @@ The server integrates with the 4Devs API (`https://www.4devs.com.br/ferramentas_
 │   │   └── brazilian-states.ts # Brazilian UF resource
 │   ├── utils/
 │   │   ├── formatting.ts     # Response formatting utilities
-│   │   └── validation.ts     # Input validation helpers
+│   │   ├── validation.ts     # Input validation helpers
+│   │   └── city-resolver.ts  # City name resolution utilities
 │   └── data/
 │       └── brazilian-ufs.json # Static Brazilian states data
 ├── build/                    # Compiled JavaScript output
@@ -357,6 +397,15 @@ For issues, questions, or contributions:
 4. Specify your MCP client and version
 
 ## Changelog
+
+### v1.1.0 (City Name Resolution Update)
+
+- **New Feature**: Automatic city name resolution in person generator
+- Added `cidade_nome` parameter to `gerar_pessoa` tool
+- Intelligent fuzzy matching for city names (handles accents, case-insensitive)
+- Comprehensive error messages with city suggestions
+- Mutual exclusivity validation between `cidade_nome` and `cep_cidade`
+- Enhanced user experience - no need to look up city codes manually
 
 ### v1.0.0 (Initial Release)
 
