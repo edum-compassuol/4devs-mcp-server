@@ -32,8 +32,9 @@ import { cnhGeneratorTool } from './tools/cnh-generator.js';
 import { pisGeneratorTool } from './tools/pis-generator.js';
 import { voterGeneratorTool } from './tools/voter-generator.js';
 
-// Import Brazilian UF resource
+// Import resources
 import { getBrazilianUFsResource } from './resources/brazilian-states.js';
+import { getDocumentationResource, getDocumentationResourceInfo } from './resources/documentation.js';
 
 /**
  * Create an MCP server with capabilities for tools and resources
@@ -41,7 +42,7 @@ import { getBrazilianUFsResource } from './resources/brazilian-states.js';
 const server = new Server(
   {
     name: "4devs-mcp-server",
-    version: "1.0.0",
+    version: "1.2.0",
   },
   {
     capabilities: {
@@ -73,7 +74,8 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
             idade: { type: "number", minimum: 0, maximum: 120, default: 0, description: "Age (0 for random)" },
             cep_estado: { type: "string", description: "Brazilian state UF code (e.g., SC, SP)" },
             txt_qtde: { type: "number", minimum: 1, maximum: 30, default: 1, description: "Number of people to generate (1-30)" },
-            cep_cidade: { type: "number", minimum: 1, description: "City code (get from city loader tool)" }
+            cep_cidade: { type: "number", minimum: 1, description: "City code (get from city loader tool)" },
+            cidade_nome: { type: "string", description: "City name for automatic resolution (requires cep_estado, mutually exclusive with cep_cidade)" }
           },
           required: ["sexo", "txt_qtde"]
         }
@@ -184,7 +186,8 @@ server.setRequestHandler(ListResourcesRequestSchema, async () => {
         mimeType: "application/json",
         name: "Brazilian Federal Units (UFs)",
         description: "Complete list of all 27 Brazilian Federal Units (states) with codes and names"
-      }
+      },
+      getDocumentationResourceInfo()
     ]
   };
 });
@@ -210,6 +213,18 @@ server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
     };
   }
   
+  if (uri === "readme://documentation") {
+    return {
+      contents: [
+        {
+          uri: uri,
+          mimeType: "text/markdown",
+          text: getDocumentationResource()
+        }
+      ]
+    };
+  }
+  
   throw new Error(`Unknown resource: ${uri}`);
 });
 
@@ -225,7 +240,7 @@ async function main() {
   
   console.error("[Setup] 4Devs MCP Server is running and ready to accept requests");
   console.error("[Setup] Available tools: gerar_pessoa, carregar_cidades, gerador_certidao, gerar_cnh, gerar_pis, gerar_titulo_eleitor");
-  console.error("[Setup] Available resources: uf://brazilian-states");
+  console.error("[Setup] Available resources: uf://brazilian-states, readme://documentation");
 }
 
 main().catch((error) => {

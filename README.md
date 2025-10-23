@@ -1,169 +1,159 @@
 # 4Devs MCP Server
 
-A Model Context Protocol (MCP) server that provides seamless integration with the 4Devs Brazilian document generation API. This server enables AI tools and applications to generate realistic Brazilian personal data, documents, and geographic information for testing and development purposes.
+The 4Devs MCP Server connects AI tools directly to Brazilian document generation capabilities. This gives AI agents, assistants, and chatbots the ability to generate realistic Brazilian personal data, documents, and geographic information for testing and development purposes. All through natural language interactions.
 
-## Overview
+[![Install with NPX](https://img.shields.io/badge/NPX-Install_Server-0098FF?style=flat-square&logo=npm&logoColor=white)](#install-with-npx) [![Install with Docker](https://img.shields.io/badge/Docker-Install_Server-2496ED?style=flat-square&logo=docker&logoColor=white)](#install-with-docker)
 
-The 4Devs MCP Server bridges the gap between the 4Devs web service and modern AI development workflows, providing standardized access to Brazilian document generation capabilities through the MCP protocol.
+### Use Cases
 
-### Key Features
+- **Testing Data Generation**: Create realistic Brazilian personal data for application testing and development
+- **Compliance Testing**: Generate valid Brazilian document formats (CPF, RG, CNH, PIS) for regulatory compliance testing
+- **Development Workflows**: Seamless integration with AI development tools for Brazilian market applications
+- **QA Automation**: Bulk generation of test datasets with proper Brazilian formatting and validation
+- **Localization Support**: Geographic data and address generation for Brazilian applications
+- **Document Validation**: Test document processing systems with valid Brazilian document numbers
 
-- **6 Comprehensive Tools** for Brazilian document generation
-- **Brazilian Geographic Data** with all 27 Federal Units (UFs)
-- **Batch Generation** support (1-30 records)
-- **Flexible Formatting** options (with/without punctuation)
-- **Complete MCP Compliance** with JSON Schema validation
-- **Robust Error Handling** and comprehensive logging
-- **TypeScript Implementation** with full type safety
+Built for developers who want to connect their AI tools to Brazilian document generation capabilities, from simple natural language queries to complex multi-step agent workflows.
 
-## Available Tools
+---
 
-### 1. Person Generator (`gerar_pessoa`)
+## Installation Methods
 
-Generates complete Brazilian person profiles including:
+### Install with NPX
 
-- Personal information (name, age, gender, zodiac sign)
-- Documents (CPF, RG with proper formatting)
-- Family information (parents' names)
-- Contact details (email, phone numbers)
-- Address information (CEP, street, city, state)
-- Physical characteristics (height, weight, blood type)
-- Credentials (password generation)
+The NPX installation provides the quickest method for getting up and running locally.
 
-**Parameters:**
+#### Prerequisites
 
-- `sexo`: Gender selection (H=Male, M=Female, I=Random)
-- `txt_qtde`: Number of people to generate (1-30)
-- `pontuacao`: Include punctuation in documents (S/N)
-- `idade`: Specific age or 0 for random
-- `cep_estado`: Brazilian state UF code (optional)
-- `cep_cidade`: City code from city loader (optional)
-- `cidade_nome`: City name for automatic resolution (requires cep_estado, mutually exclusive with cep_cidade)
+1. Node.js 18+ installed on your system
+2. A compatible MCP host (Claude Desktop, VS Code with MCP support, etc.)
 
-**City Name Resolution:**
-
-The person generator now supports automatic city name resolution. When you provide `cidade_nome`, the system will:
-
-1. Load all cities for the specified state (`cep_estado`)
-2. Search for the city using fuzzy matching (handles accents, case-insensitive)
-3. Automatically resolve the city name to the required city ID
-4. Generate person data specifically for that city
-
-This eliminates the need to manually look up city codes, making the tool much more user-friendly.
-
-**Examples:**
-- `cidade_nome: "Florianópolis"` with `cep_estado: "SC"` → Generates people from Florianópolis
-- `cidade_nome: "São Paulo"` with `cep_estado: "SP"` → Generates people from São Paulo
-- Invalid city names provide helpful error messages with suggestions
-
-### 2. City Loader (`carregar_cidades`)
-
-Loads all cities for a specific Brazilian state.
-
-**Parameters:**
-
-- `cep_estado`: Brazilian state UF code (required)
-
-**Returns:** List of cities with codes and names for the specified state.
-
-### 3. Certificate Generator (`gerador_certidao`)
-
-Generates Brazilian certificate numbers for various document types.
-
-**Parameters:**
-
-- `tipo_certidao`: Certificate type (nascimento, casamento, casamento_religioso, obito, Indiferente)
-- `pontuacao`: Include punctuation formatting (S/N)
-
-**Supported Types:**
-
-- `nascimento`: Birth certificates
-- `casamento`: Marriage certificates  
-- `casamento_religioso`: Religious marriage certificates
-- `obito`: Death certificates
-- `Indiferente`: Random certificate type
-
-### 4. CNH Generator (`gerar_cnh`)
-
-Generates valid Brazilian CNH (driver's license) numbers.
-
-**Parameters:** None required
-
-**Returns:** 11-digit CNH number following Brazilian standards.
-
-### 5. PIS Generator (`gerar_pis`)
-
-Generates valid Brazilian PIS (social security) numbers.
-
-**Parameters:**
-
-- `pontuacao`: Include punctuation formatting (S/N)
-
-**Returns:** PIS number in format XXX.XXXXX.XX-X or numeric only.
-
-### 6. Voter Registration Generator (`gerar_titulo_eleitor`)
-
-Generates valid Brazilian voter registration numbers.
-
-**Parameters:**
-
-- `estado`: Brazilian state UF code (optional)
-
-**Returns:** 12-digit voter registration number.
-
-## Brazilian UF Resource
-
-The server provides a comprehensive resource containing all 27 Brazilian Federal Units:
-
-**URI:** `uf://brazilian-states`
-
-**Content:** Complete list of Brazilian states with UF codes and full names, including:
-
-- 26 States: AC, AL, AP, AM, BA, CE, ES, GO, MA, MT, MS, MG, PA, PB, PR, PE, PI, RJ, RN, RS, RO, RR, SC, SP, SE, TO
-- 1 Federal District: DF
-
-## Installation
-
-### Prerequisites
-
-- Node.js 18+
-- npm or yarn
-- MCP-compatible client (Claude Desktop, etc.)
-
-### Setup
-
-1. **Clone or download the server:**
+#### Quick Installation
 
 ```bash
+# Run directly with NPX (recommended for testing)
+npx 4devs-mcp-server
+
+# Or install globally
+npm install -g 4devs-mcp-server
+```
+
+#### Install in VS Code
+
+Add the following JSON block to your VS Code MCP settings:
+
+```json
+{
+  "mcpServers": {
+    "4devs": {
+      "command": "npx",
+      "args": ["4devs-mcp-server"],
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
+#### Install in Claude Desktop
+
+Add to your Claude Desktop `settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "4devs": {
+      "command": "npx",
+      "args": ["4devs-mcp-server"],
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
+### Install with Docker
+
+[![Install with Docker](https://img.shields.io/badge/Docker-Install_Server-2496ED?style=flat-square&logo=docker&logoColor=white)](#)
+
+#### Prerequisites
+
+1. [Docker](https://www.docker.com/) installed and running
+2. A compatible MCP host with Docker support
+
+#### Docker Installation
+
+```bash
+# Pull and run the Docker image
+docker run -i --rm 4devs-mcp-server
+
+# Or build from source
 git clone <repository-url>
 cd 4devs-mcp-server
+docker build -t 4devs-mcp-server .
+docker run -i --rm 4devs-mcp-server
 ```
 
-2. **Install dependencies:**
+#### Install with Docker in VS Code
+
+```json
+{
+  "mcpServers": {
+    "4devs": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "4devs-mcp-server"
+      ],
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
+#### Install with Docker in Claude Desktop
+
+```json
+{
+  "mcpServers": {
+    "4devs": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "4devs-mcp-server"
+      ],
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
+### Build from Source
+
+If you prefer to build from source or contribute to the project:
 
 ```bash
+# Clone the repository
+git clone <repository-url>
+cd 4devs-mcp-server
+
+# Install dependencies
 npm install
-```
 
-3. **Build the server:**
-
-```bash
+# Build the project
 npm run build
+
+# Test the server
+npm run inspector
 ```
 
-4. **Test the server:**
-
-```bash
-npm test
-```
-
-## Configuration
-
-### MCP Client Configuration
-
-Add the server to your MCP client configuration:
-
-#### For Claude Desktop (settings.json)
+Then configure your MCP client to use the built executable:
 
 ```json
 {
@@ -178,23 +168,131 @@ Add the server to your MCP client configuration:
 }
 ```
 
-#### For other MCP clients
+---
 
-```json
-{
-  "name": "4devs",
-  "command": "node",
-  "args": ["build/index.js"],
-  "cwd": "/path/to/4devs-mcp-server"
-}
-```
+## Tools
+
+The 4Devs MCP Server provides 6 comprehensive tools for Brazilian document generation:
+
+<details>
+<summary><b>Person Generator</b></summary>
+
+- **gerar_pessoa** - Generate complete Brazilian person profiles
+  - `sexo`: Gender selection - H (Male), M (Female), I (Random) (string, required)
+  - `txt_qtde`: Number of people to generate (1-30) (number, required)
+  - `pontuacao`: Include punctuation in documents - S (Yes), N (No) (string, optional)
+  - `idade`: Specific age or 0 for random (0-120) (number, optional)
+  - `cep_estado`: Brazilian state UF code (e.g., SC, SP) (string, optional)
+  - `cep_cidade`: City code from city loader tool (number, optional)
+  - `cidade_nome`: City name for automatic resolution (requires cep_estado, mutually exclusive with cep_cidade) (string, optional)
+
+**Generates:**
+
+- Personal information (name, age, gender, zodiac sign)
+- Documents (CPF, RG with proper formatting)
+- Family information (parents' names)
+- Contact details (email, phone numbers)
+- Address information (CEP, street, city, state)
+- Physical characteristics (height, weight, blood type)
+- Credentials (password generation)
+
+**City Name Resolution Feature:**
+The person generator supports automatic city name resolution. When you provide `cidade_nome`, the system will:
+
+1. Load all cities for the specified state (`cep_estado`)
+2. Search for the city using fuzzy matching (handles accents, case-insensitive)
+3. Automatically resolve the city name to the required city ID
+4. Generate person data specifically for that city
+
+</details>
+
+<details>
+<summary><b>City Loader</b></summary>
+
+- **carregar_cidades** - Load cities by Brazilian state
+  - `cep_estado`: Brazilian state UF code (2 letters, e.g., SC, SP, RJ) (string, required)
+
+**Returns:** Complete list of cities with codes and names for the specified state, used by the person generator for location-specific data generation.
+
+</details>
+
+<details>
+<summary><b>Certificate Generator</b></summary>
+
+- **gerador_certidao** - Generate Brazilian certificate numbers
+  - `pontuacao`: Include punctuation formatting - S (Yes), N (No) (string, optional)
+  - `tipo_certidao`: Certificate type (string, optional)
+    - `nascimento`: Birth certificates
+    - `casamento`: Marriage certificates
+    - `casamento_religioso`: Religious marriage certificates
+    - `obito`: Death certificates
+    - `Indiferente`: Random certificate type
+
+**Returns:** Valid Brazilian certificate numbers in the specified format.
+
+</details>
+
+<details>
+<summary><b>CNH Generator</b></summary>
+
+- **gerar_cnh** - Generate Brazilian CNH (driver's license) numbers
+  - No parameters required
+
+**Returns:** Valid 11-digit CNH number following Brazilian standards.
+
+</details>
+
+<details>
+<summary><b>PIS Generator</b></summary>
+
+- **gerar_pis** - Generate Brazilian PIS (social security) numbers
+  - `pontuacao`: Include punctuation formatting - S (Yes), N (No) (string, optional)
+
+**Returns:** Valid PIS number in format XXX.XXXXX.XX-X or numeric only.
+
+</details>
+
+<details>
+<summary><b>Voter Registration Generator</b></summary>
+
+- **gerar_titulo_eleitor** - Generate Brazilian voter registration numbers
+  - `estado`: Brazilian state UF code (2 letters, e.g., SC, SP, RJ) (string, optional)
+
+**Returns:** Valid 12-digit voter registration number, optionally targeted to a specific state.
+
+</details>
+
+---
+
+## Resources
+
+The server provides comprehensive resources for Brazilian geographic and documentation data:
+
+### Brazilian Federal Units Resource
+
+- **URI:** `uf://brazilian-states`
+- **Type:** JSON data
+- **Content:** Complete list of all 27 Brazilian Federal Units (states) with UF codes and full names
+
+**Includes:**
+
+- 26 States: AC, AL, AP, AM, BA, CE, ES, GO, MA, MT, MS, MG, PA, PB, PR, PE, PI, RJ, RN, RS, RO, RR, SC, SP, SE, TO
+- 1 Federal District: DF
+
+### Documentation Resource
+
+- **URI:** `readme://documentation`
+- **Type:** Markdown documentation
+- **Content:** Complete server documentation including installation guides, tool descriptions, and usage examples
+
+---
 
 ## Usage Examples
 
 ### Generate a Single Person
 
-```typescript
-// Using MCP Inspector CLI
+```bash
+# Using MCP Inspector CLI
 npx @modelcontextprotocol/inspector --cli node build/index.js \
   --method tools/call \
   --tool-name gerar_pessoa \
@@ -204,7 +302,7 @@ npx @modelcontextprotocol/inspector --cli node build/index.js \
 
 ### Generate Multiple People from Specific State
 
-```typescript
+```bash
 npx @modelcontextprotocol/inspector --cli node build/index.js \
   --method tools/call \
   --tool-name gerar_pessoa \
@@ -213,9 +311,9 @@ npx @modelcontextprotocol/inspector --cli node build/index.js \
   --tool-arg cep_estado=SP
 ```
 
-### Generate People from Specific City (New Feature)
+### Generate People from Specific City (Enhanced Feature)
 
-```typescript
+```bash
 # Generate person from Florianópolis, SC
 npx @modelcontextprotocol/inspector --cli node build/index.js \
   --method tools/call \
@@ -237,7 +335,7 @@ npx @modelcontextprotocol/inspector --cli node build/index.js \
 
 ### Load Cities for a State
 
-```typescript
+```bash
 npx @modelcontextprotocol/inspector --cli node build/index.js \
   --method tools/call \
   --tool-name carregar_cidades \
@@ -246,7 +344,7 @@ npx @modelcontextprotocol/inspector --cli node build/index.js \
 
 ### Generate Documents
 
-```typescript
+```bash
 # Birth certificate with punctuation
 npx @modelcontextprotocol/inspector --cli node build/index.js \
   --method tools/call \
@@ -266,13 +364,56 @@ npx @modelcontextprotocol/inspector --cli node build/index.js \
   --tool-arg pontuacao=S
 ```
 
-### Access Brazilian UF Resource
+### Access Resources
 
-```typescript
+```bash
+# Brazilian UF Resource
 npx @modelcontextprotocol/inspector --cli node build/index.js \
   --method resources/read \
   --uri "uf://brazilian-states"
+
+# Documentation Resource
+npx @modelcontextprotocol/inspector --cli node build/index.js \
+  --method resources/read \
+  --uri "readme://documentation"
 ```
+
+---
+
+## Docker Usage
+
+### Building the Docker Image
+
+```bash
+# Build the image
+docker build -t 4devs-mcp-server .
+
+# Or use npm script
+npm run docker:build
+```
+
+### Running with Docker
+
+```bash
+# Run the container
+docker run -i --rm 4devs-mcp-server
+
+# Or use npm script
+npm run docker:run
+
+# Test the Docker build and run
+npm run docker:test
+```
+
+### Docker Image Details
+
+- **Base Image:** `node:22-alpine` (optimized for security and size)
+- **Build Strategy:** Multi-stage build for minimal production image
+- **Image Size:** ~50MB (optimized Node.js + application)
+- **Security:** Non-root user, minimal attack surface
+- **Architecture:** Supports multiple architectures (amd64, arm64)
+
+---
 
 ## API Integration
 
@@ -283,18 +424,22 @@ The server integrates with the 4Devs API (`https://www.4devs.com.br/ferramentas_
 - **Rate Limiting:** Respectful usage recommended
 - **Response Types:** JSON (person data), HTML (city lists), Text (documents)
 
+---
+
 ## Development
 
 ### Project Structure
 
-```txt
+```
 4devs-mcp-server/
+├── Dockerfile                    # Multi-stage Docker build
+├── .dockerignore                 # Docker ignore rules
 ├── src/
-│   ├── index.ts              # Main MCP server entry point
+│   ├── index.ts                  # Main MCP server entry point
 │   ├── api/
-│   │   ├── client.ts         # 4Devs API client
-│   │   └── types.ts          # TypeScript type definitions
-│   ├── tools/                # MCP tool implementations
+│   │   ├── client.ts             # 4Devs API client
+│   │   └── types.ts              # TypeScript type definitions
+│   ├── tools/                    # MCP tool implementations
 │   │   ├── person-generator.ts
 │   │   ├── city-loader.ts
 │   │   ├── certificate-generator.ts
@@ -302,23 +447,37 @@ The server integrates with the 4Devs API (`https://www.4devs.com.br/ferramentas_
 │   │   ├── pis-generator.ts
 │   │   └── voter-generator.ts
 │   ├── resources/
-│   │   └── brazilian-states.ts # Brazilian UF resource
+│   │   ├── brazilian-states.ts   # Brazilian UF resource
+│   │   └── documentation.ts      # Documentation resource
 │   ├── utils/
-│   │   ├── formatting.ts     # Response formatting utilities
-│   │   ├── validation.ts     # Input validation helpers
-│   │   └── city-resolver.ts  # City name resolution utilities
+│   │   ├── formatting.ts         # Response formatting utilities
+│   │   ├── validation.ts         # Input validation helpers
+│   │   └── city-resolver.ts      # City name resolution utilities
 │   └── data/
-│       └── brazilian-ufs.json # Static Brazilian states data
-├── build/                    # Compiled JavaScript output
+│       └── brazilian-ufs.json    # Static Brazilian states data
+├── build/                        # Compiled JavaScript output
 ├── package.json
 ├── tsconfig.json
 └── README.md
 ```
 
-### Building
+### Building and Testing
 
 ```bash
+# Install dependencies
+npm install
+
+# Build the project
 npm run build
+
+# Watch for changes during development
+npm run watch
+
+# Test with MCP Inspector
+npm run inspector
+
+# Test Docker build
+npm run docker:test
 ```
 
 ### Testing with MCP Inspector
@@ -331,13 +490,7 @@ npx @modelcontextprotocol/inspector node build/index.js
 npx @modelcontextprotocol/inspector --cli node build/index.js --method tools/list
 ```
 
-### Logging
-
-The server provides comprehensive logging following MCP development protocol:
-
-- `[Setup]` - Server initialization
-- `[API]` - API requests and responses  
-- `[Error]` - Error conditions and failures
+---
 
 ## Error Handling
 
@@ -345,10 +498,13 @@ The server implements robust error handling for:
 
 - **Network Issues:** Connection timeouts and failures
 - **API Errors:** Invalid responses and rate limiting
-- **Validation Errors:** Invalid input parameters
+- **Validation Errors:** Invalid input parameters with clear messages
 - **Data Processing:** Response parsing and formatting errors
+- **City Resolution:** Fuzzy matching with helpful suggestions for invalid city names
 
 All errors are returned in structured format with clear error messages and context information.
+
+---
 
 ## Brazilian Geographic Data
 
@@ -364,22 +520,41 @@ All 27 Brazilian Federal Units are supported:
 
 ### City Data
 
-- Dynamic city loading via API
+- Dynamic city loading via API (382 cities in SC, 645 cities in SP, etc.)
 - City codes for precise geographic targeting
+- Intelligent city name resolution with fuzzy matching
 - Integration with person generator for location-specific data
+
+---
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
 4. Add tests for new functionality
-5. Ensure all tests pass
-6. Submit a pull request
+5. Ensure all tests pass (`npm test`)
+6. Build and test Docker image (`npm run docker:test`)
+7. Commit your changes (`git commit -m 'Add amazing feature'`)
+8. Push to the branch (`git push origin feature/amazing-feature`)
+9. Open a Pull Request
+
+### Development Guidelines
+
+- Follow TypeScript best practices
+- Add comprehensive error handling
+- Include MCP protocol compliant logging
+- Test all tools individually with MCP Inspector
+- Update documentation for new features
+- Maintain backward compatibility
+
+---
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
 
 ## Acknowledgments
 
@@ -387,16 +562,31 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [Model Context Protocol](https://modelcontextprotocol.io/) for the standardized AI tool integration framework
 - Brazilian government standards for document formatting specifications
 
+---
+
 ## Support
 
 For issues, questions, or contributions:
 
-1. Check existing GitHub issues
+1. Check existing [GitHub issues](https://github.com/your-org/4devs-mcp-server/issues)
 2. Create a new issue with detailed description
 3. Include error logs and reproduction steps
 4. Specify your MCP client and version
+5. For Docker issues, include Docker version and platform information
+
+---
 
 ## Changelog
+
+### v1.2.0 (Docker + Documentation Enhancement)
+
+- **New Feature**: Docker containerization with multi-stage builds
+- **New Feature**: Documentation MCP resource (`readme://documentation`)
+- **Enhancement**: GitHub MCP Server style README.md with comprehensive guides
+- **Enhancement**: Multiple installation methods (NPX, Docker, Source)
+- **Enhancement**: Enhanced package.json with proper metadata and Docker scripts
+- **Enhancement**: Improved error handling and logging
+- **Security**: Non-root Docker user and optimized Alpine Linux base image
 
 ### v1.1.0 (City Name Resolution Update)
 

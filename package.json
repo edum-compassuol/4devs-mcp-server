@@ -1,20 +1,49 @@
 {
   "name": "4devs-mcp-server",
-  "version": "0.1.0",
-  "description": "A Model Context Protocol server",
+  "version": "1.2.0",
+  "description": "A Model Context Protocol server for Brazilian document generation using the 4Devs API",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "brazilian-documents",
+    "cpf",
+    "cnpj",
+    "cnh",
+    "pis",
+    "4devs",
+    "document-generation",
+    "testing-data",
+    "brazil"
+  ],
+  "author": "4Devs MCP Server Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-org/4devs-mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/4devs-mcp-server/issues"
+  },
+  "homepage": "https://github.com/your-org/4devs-mcp-server#readme",
   "private": true,
   "type": "module",
   "bin": {
     "4devs-mcp-server": "./build/index.js"
   },
   "files": [
-    "build"
+    "build",
+    "README.md",
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\"",
     "prepare": "npm run build",
     "watch": "tsc --watch",
-    "inspector": "npx @modelcontextprotocol/inspector build/index.js"
+    "inspector": "npx @modelcontextprotocol/inspector build/index.js",
+    "docker:build": "docker build -t 4devs-mcp-server .",
+    "docker:run": "docker run -i --rm 4devs-mcp-server",
+    "docker:test": "npm run docker:build && npm run docker:run",
+    "test": "npm run build && npm run inspector"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "0.6.0",
@@ -24,5 +53,8 @@
   "devDependencies": {
     "@types/node": "^20.19.23",
     "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
