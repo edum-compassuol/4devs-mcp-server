@@ -1,7 +1,7 @@
 {
-  "name": "4devs-mcp-server",
+  "name": "@edum-compassuol/4devs-mcp-server",
   "version": "1.2.0",
-  "description": "A Model Context Protocol server for Brazilian document generation using the 4Devs API",
+  "description": "MCP Server for Brazilian document generation using the 4Devs API - Generate realistic Brazilian personal data, documents, and geographic information for testing and development",
   "keywords": [
     "mcp",
     "model-context-protocol",
@@ -15,17 +15,24 @@
     "testing-data",
     "brazil"
   ],
-  "author": "4Devs MCP Server Contributors",
+  "author": {
+    "name": "Eduardo Sausen Mallmann",
+    "email": "eduardo.sausen@compasso.com.br",
+    "url": "https://github.com/edum-compassuol"
+  },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-org/4devs-mcp-server.git"
+    "url": "https://github.com/edum-compassuol/4devs-mcp-server.git"
   },
   "bugs": {
-    "url": "https://github.com/your-org/4devs-mcp-server/issues"
+    "url": "https://github.com/edum-compassuol/4devs-mcp-server/issues"
   },
-  "homepage": "https://github.com/your-org/4devs-mcp-server#readme",
-  "private": true,
+  "homepage": "https://github.com/edum-compassuol/4devs-mcp-server#readme",
+  "private": false,
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
   "type": "module",
   "bin": {
     "4devs-mcp-server": "./build/index.js"
