@@ -230,7 +230,13 @@ npx 4devs-mcp-server
   "mcpServers": {
     "4devs": {
       "command": "npx",
-      "args": ["4devs-mcp-server"]
+      "args": [
+        "-y",
+        "@edum-compassuol/4devs-mcp-server"
+      ],
+      "env": {
+        "GITHUB_TOKEN": "XXXXXXXXXXX"
+      }
     }
   }
 }
