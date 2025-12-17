@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import FormData from 'form-data';
+import https from 'https';
 import {
   GeradorPessoaRequest,
   GeradorPessoaResponse,
@@ -30,7 +31,10 @@ export class FourDevsClient {
       timeout: 30000, // 30 seconds timeout
       headers: {
         'User-Agent': '4devs-mcp-server/1.0.0'
-      }
+      },
+      httpsAgent: new https.Agent({
+        rejectUnauthorized: false // Allow self-signed certificates
+      })
     });
 
     // Add request interceptor for logging
@@ -76,14 +80,15 @@ export class FourDevsClient {
   /**
    * Make a POST request to the 4Devs API
    */
-  private async post<T>(data: Record<string, any>): Promise<T> {
+  private async post<T>(data: Record<string, any>, responseType: 'json' | 'text' = 'json'): Promise<T> {
     try {
       const formData = this.createFormData(data);
       
       const response = await this.client.post<T>(this.endpoint, formData, {
         headers: {
           ...formData.getHeaders()
-        }
+        },
+        responseType: responseType as any
       });
 
       return response.data;
@@ -129,7 +134,7 @@ export class FourDevsClient {
       acao: 'gerador_certidao',
       ...params
     };
-    return this.post<GeradorCertidaoResponse>(request);
+    return this.post<GeradorCertidaoResponse>(request, 'text');
   }
 
   /**
@@ -140,7 +145,7 @@ export class FourDevsClient {
     const request: GeradorCnhRequest = {
       acao: 'gerar_cnh'
     };
-    return this.post<GeradorCnhResponse>(request);
+    return this.post<GeradorCnhResponse>(request, 'text');
   }
 
   /**
@@ -152,7 +157,7 @@ export class FourDevsClient {
       acao: 'gerar_pis',
       ...params
     };
-    return this.post<GeradorPisResponse>(request);
+    return this.post<GeradorPisResponse>(request, 'text');
   }
 
   /**
@@ -164,6 +169,6 @@ export class FourDevsClient {
       acao: 'gerar_titulo_eleitor',
       ...params
     };
-    return this.post<GeradorTituloEleitorResponse>(request);
+    return this.post<GeradorTituloEleitorResponse>(request, 'text');
   }
 }

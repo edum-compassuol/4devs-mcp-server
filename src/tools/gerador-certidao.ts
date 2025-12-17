@@ -43,13 +43,16 @@ export const geradorCertidaoTool = {
     
     console.error('[Tool] Certificate generated successfully');
     
+    // Result is now guaranteed to be a string due to responseType: 'text'
+    const certidaoNumber = result.trim();
+    
     return {
       content: [
         {
           type: 'text' as const,
           text: JSON.stringify({
             tipo_certidao: validatedArgs.tipo_certidao || 'Indiferente',
-            numero: result.trim()
+            numero: certidaoNumber
           }, null, 2)
         }
       ]
