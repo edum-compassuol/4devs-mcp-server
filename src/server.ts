@@ -3,6 +3,8 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
+  ListResourcesRequestSchema,
+  ReadResourceRequestSchema,
   Tool
 } from '@modelcontextprotocol/sdk/types.js';
 import { FourDevsClient } from './api/client.js';
@@ -12,6 +14,7 @@ import { geradorCertidaoTool } from './tools/gerador-certidao.js';
 import { gerarCnhTool } from './tools/gerar-cnh.js';
 import { gerarPisTool } from './tools/gerar-pis.js';
 import { gerarTituloEleitorTool } from './tools/gerar-titulo-eleitor.js';
+import { readmeResource } from './resources/readme-resource.js';
 
 /**
  * 4Devs MCP Server
@@ -34,6 +37,7 @@ export class FourDevsServer {
       {
         capabilities: {
           tools: {},
+          resources: {},
         },
       }
     );
@@ -85,6 +89,39 @@ export class FourDevsServer {
 
       console.error(`[Server] Returning ${tools.length} tools`);
       return { tools };
+    });
+
+    // List available resources
+    this.server.setRequestHandler(ListResourcesRequestSchema, async () => {
+      console.error('[Server] Listing available resources...');
+      
+      const resources = [
+        {
+          uri: readmeResource.uri,
+          name: readmeResource.name,
+          description: readmeResource.description,
+          mimeType: readmeResource.mimeType
+        }
+      ];
+
+      console.error(`[Server] Returning ${resources.length} resources`);
+      return { resources };
+    });
+
+    // Handle resource reads
+    this.server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
+      console.error(`[Server] Resource read requested: ${request.params.uri}`);
+      
+      try {
+        if (request.params.uri === readmeResource.uri) {
+          return await readmeResource.read();
+        }
+        
+        throw new Error(`Unknown resource: ${request.params.uri}`);
+      } catch (error) {
+        console.error('[Error] Resource read failed:', error);
+        throw error;
+      }
     });
 
     // Handle tool calls
