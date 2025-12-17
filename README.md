@@ -17,6 +17,66 @@ O 4Devs MCP Server fornece acesso programático à API 4Devs através do protoco
 - **Geração em Lote**: Até 30 registros por requisição
 - **Customização Avançada**: Controle de gênero, idade, localização e formatação
 
+## 🚀 Instalação Rápida via Packages Remotos
+
+Você pode usar o 4Devs MCP Server diretamente no Claude Desktop sem precisar clonar o repositório, usando packages remotos via **npx** (GitHub Packages) ou **Docker** (GitHub Container Registry).
+
+### Método 1: NPX via GitHub Packages
+
+Adicione ao arquivo de configuração do Claude Desktop:
+
+**macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+**Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+**Linux**: `~/.config/Claude/claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "4devs": {
+      "command": "npx",
+      "args": ["-y", "@edum-compassuol/4devs-mcp-server"]
+    }
+  }
+}
+```
+
+> **Nota**: Este package está publicado no GitHub Package Registry. Se for um package privado, você precisará configurar autenticação npm com seu token do GitHub.
+
+#### Configurar Autenticação (se necessário)
+
+Se o package for privado, crie/edite o arquivo `~/.npmrc`:
+
+```
+//npm.pkg.github.com/:_authToken=SEU_GITHUB_TOKEN
+@edum-compassuol:registry=https://npm.pkg.github.com
+```
+
+### Método 2: Docker via GitHub Container Registry (GHCR)
+
+```json
+{
+  "mcpServers": {
+    "4devs": {
+      "command": "docker",
+      "args": ["run", "-i", "--rm", "ghcr.io/edum-compassuol/4devs-mcp-server:latest"]
+    }
+  }
+}
+```
+
+> **Nota**: Se a imagem Docker for privada, você precisará fazer login no GHCR primeiro:
+> ```bash
+> echo $GITHUB_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+> ```
+
+### Verificação da Instalação
+
+Após adicionar a configuração:
+
+1. Reinicie o Claude Desktop
+2. Verifique se o servidor "4devs" aparece na lista de MCP servers
+3. Teste uma ferramenta simples como `gerar_cnh` para confirmar que está funcionando
+
 ## ✨ Ferramentas Disponíveis
 
 ### 1. 🧑 gerar_pessoa
