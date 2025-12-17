@@ -20,79 +20,97 @@ O 4Devs MCP Server fornece acesso programático à API 4Devs através do protoco
 ## ✨ Ferramentas Disponíveis
 
 ### 1. 🧑 gerar_pessoa
+
 Gera dados completos de pessoas brasileiras com documentos válidos.
 
 **Características:**
+
 - Geração de 1 a 30 pessoas por requisição
 - Documentos com formatação customizável (com/sem pontuação)
 - Filtros por gênero, idade e localização
 - Dados completos: nome, CPF, RG, endereço, contatos, características físicas
 
 **Casos de Uso:**
+
 - Testes de sistemas de cadastro
 - População de bancos de dados de desenvolvimento
 - Validação de formulários
 - Demonstrações de produtos
 
 ### 2. 🏙️ carregar_cidades
+
 Lista todas as cidades de um estado brasileiro com seus códigos.
 
 **Características:**
+
 - Retorna código e nome de cada cidade
 - Suporta todos os 27 estados brasileiros
 - Dados atualizados e validados
 
 **Casos de Uso:**
+
 - Preenchimento de dropdowns de cidades
 - Validação de endereços
 - Integração com sistemas de logística
 
 ### 3. 📜 gerador_certidao
+
 Gera números válidos de certidões brasileiras.
 
 **Tipos Suportados:**
+
 - Certidão de Nascimento
 - Certidão de Casamento
 - Certidão de Casamento Religioso
 - Certidão de Óbito
 
 **Casos de Uso:**
+
 - Testes de sistemas cartoriais
 - Validação de documentos
 - Simulação de processos legais
 
 ### 4. 🚗 gerar_cnh
+
 Gera números válidos de CNH (Carteira Nacional de Habilitação).
 
 **Características:**
+
 - Números com dígitos verificadores corretos
 - Formato padrão brasileiro
 
 **Casos de Uso:**
+
 - Testes de sistemas de trânsito
 - Validação de habilitação
 - Sistemas de locação de veículos
 
 ### 5. 💼 gerar_pis
+
 Gera números válidos de PIS/PASEP/NIS.
 
 **Características:**
+
 - Números com dígitos verificadores corretos
 - Formatação customizável (com/sem pontuação)
 
 **Casos de Uso:**
+
 - Testes de sistemas de RH
 - Validação de folha de pagamento
 - Sistemas previdenciários
 
 ### 6. 🗳️ gerar_titulo_eleitor
+
 Gera números válidos de Título de Eleitor.
 
 **Características:**
+
 - Números específicos por estado ou aleatórios
 - Formato padrão da Justiça Eleitoral
 
 **Casos de Uso:**
+
 - Testes de sistemas eleitorais
 - Validação de cadastro eleitoral
 - Sistemas de identificação civil
@@ -102,6 +120,7 @@ Gera números válidos de Título de Eleitor.
 ### Método 1: NPM Package (Recomendado para Desenvolvimento)
 
 #### Pré-requisitos
+
 - Node.js 18 ou superior
 - npm ou yarn
 
@@ -141,6 +160,7 @@ Adicione ao arquivo de configuração do Claude Desktop:
 ### Método 2: Docker (Recomendado para Produção)
 
 #### Pré-requisitos
+
 - Docker 20.10 ou superior
 - Docker Compose (opcional)
 
@@ -233,6 +253,7 @@ REQUEST_TIMEOUT=30000
 ### Configuração com Variáveis de Ambiente
 
 **NPM/Node.js:**
+
 ```json
 {
   "mcpServers": {
@@ -248,6 +269,7 @@ REQUEST_TIMEOUT=30000
 ```
 
 **Docker:**
+
 ```json
 {
   "mcpServers": {
@@ -395,6 +417,7 @@ Gera números de certidões brasileiras.
 | `tipo_certidao` | string | Não | Ver abaixo | Tipo da certidão |
 
 **Tipos de Certidão:**
+
 - `nascimento` - Certidão de Nascimento
 - `casamento` - Certidão de Casamento
 - `casamento_religioso` - Certidão de Casamento Religioso
@@ -613,6 +636,7 @@ npm run inspector
 ```
 
 O Inspector abrirá uma interface web em `http://localhost:6274` onde você pode:
+
 - Listar todas as ferramentas disponíveis
 - Testar cada ferramenta com parâmetros customizados
 - Ver respostas em tempo real
