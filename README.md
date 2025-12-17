@@ -81,6 +81,7 @@ Para outros clientes que suportam MCP, use o transporte stdio:
 Gera dados completos de uma ou mais pessoas brasileiras.
 
 **Parâmetros:**
+
 - `sexo` (obrigatório): "H" (Homem), "M" (Mulher), ou "I" (Indiferente/Aleatório)
 - `txt_qtde` (obrigatório): Quantidade de pessoas (1-30)
 - `pontuacao` (opcional): "S" para incluir pontuação nos documentos, "N" para não incluir
@@ -89,6 +90,7 @@ Gera dados completos de uma ou mais pessoas brasileiras.
 - `cep_cidade` (opcional): Código da cidade (obter via `carregar_cidades`)
 
 **Exemplo de Requisição:**
+
 ```json
 {
   "name": "gerar_pessoa",
@@ -102,6 +104,7 @@ Gera dados completos de uma ou mais pessoas brasileiras.
 ```
 
 **Exemplo de Resposta:**
+
 ```json
 [
   {
@@ -137,9 +140,11 @@ Gera dados completos de uma ou mais pessoas brasileiras.
 Lista todas as cidades de um estado brasileiro.
 
 **Parâmetros:**
+
 - `cep_estado` (obrigatório): Sigla do estado (ex: "SP", "RJ", "SC")
 
 **Exemplo de Requisição:**
+
 ```json
 {
   "name": "carregar_cidades",
@@ -150,6 +155,7 @@ Lista todas as cidades de um estado brasileiro.
 ```
 
 **Exemplo de Resposta:**
+
 ```json
 {
   "estado": "SC",
@@ -172,10 +178,12 @@ Lista todas as cidades de um estado brasileiro.
 Gera números de certidões brasileiras.
 
 **Parâmetros:**
+
 - `pontuacao` (opcional): "S" para incluir pontuação, "N" para não incluir
 - `tipo_certidao` (opcional): "nascimento", "casamento", "casamento_religioso", "obito", ou "Indiferente"
 
 **Exemplo de Requisição:**
+
 ```json
 {
   "name": "gerador_certidao",
@@ -187,6 +195,7 @@ Gera números de certidões brasileiras.
 ```
 
 **Exemplo de Resposta:**
+
 ```json
 {
   "tipo_certidao": "nascimento",
@@ -201,6 +210,7 @@ Gera números de CNH (Carteira Nacional de Habilitação).
 **Parâmetros:** Nenhum
 
 **Exemplo de Requisição:**
+
 ```json
 {
   "name": "gerar_cnh",
@@ -209,6 +219,7 @@ Gera números de CNH (Carteira Nacional de Habilitação).
 ```
 
 **Exemplo de Resposta:**
+
 ```json
 {
   "cnh": "12345678901"
@@ -220,9 +231,11 @@ Gera números de CNH (Carteira Nacional de Habilitação).
 Gera números de PIS (Programa de Integração Social).
 
 **Parâmetros:**
+
 - `pontuacao` (opcional): "S" para incluir pontuação, "N" para não incluir
 
 **Exemplo de Requisição:**
+
 ```json
 {
   "name": "gerar_pis",
@@ -233,6 +246,7 @@ Gera números de PIS (Programa de Integração Social).
 ```
 
 **Exemplo de Resposta:**
+
 ```json
 {
   "pis": "123.45678.90-1"
@@ -244,9 +258,11 @@ Gera números de PIS (Programa de Integração Social).
 Gera números de Título de Eleitor.
 
 **Parâmetros:**
+
 - `estado` (opcional): UF do estado (ex: "SP", "RJ", "SC")
 
 **Exemplo de Requisição:**
+
 ```json
 {
   "name": "gerar_titulo_eleitor",
@@ -257,6 +273,7 @@ Gera números de Título de Eleitor.
 ```
 
 **Exemplo de Resposta:**
+
 ```json
 {
   "estado": "SP",
@@ -283,7 +300,7 @@ O MCP Inspector abrirá uma interface web em `http://localhost:6274` onde você 
 
 ## 🏗️ Estrutura do Projeto
 
-```
+```txt
 4devs-mcp-server/
 ├── src/
 │   ├── api/
@@ -367,6 +384,7 @@ Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes
 ## 📞 Suporte
 
 Para problemas ou dúvidas:
+
 - Abra uma issue no GitHub
 - Consulte a documentação do MCP
 - Verifique a documentação da API 4Devs
